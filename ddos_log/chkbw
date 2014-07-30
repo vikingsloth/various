@@ -1,0 +1,22 @@
+#!/bin/bash
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
+limit=50000000; # 50mb/s
+iface_count="/root/logs/bin/iface_count"
+prevIN=$($iface_count bond0 |cut -d' ' -f1 |cut -d':' -f 2;);
+sleep 10
+nowIN=$($iface_count bond0 |cut -d' ' -f1 |cut -d':' -f 2;);
+
+cur=$(( (($nowIN - $prevIN) / 10) * 8 ));
+pcap_path=$(date +/root/logs/%Y/%m)
+pcap_file=$(date +%Y%m%d-%H%M.pcap)
+if [ $cur -gt $limit ]; then
+  echo "WARNING: ddos detected $(( $cur / 1000 ))kbps" | mailx -r server@localhost -s "DDOS DETECTED: $(( $cur / 1000 ))kbps" ddosalert@htols.net
+  mkdir -p "$pcap_path"
+#  tcpdump -i bond0 -nn -w "$pcap_path/$pcap_file" dst net 2a00:1678:0:b026::/64 >/dev/null &
+  tcpdump -i bond0 -nn -w "$pcap_path/$pcap_file" net 2a00:1678:0:b026::/64 >/dev/null &
+  lastpid=$!
+  sleep 30
+  kill -1 $lastpid
+fi
