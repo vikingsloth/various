@@ -1,0 +1,15 @@
+#!/bin/bash
+
+iface_count="~/bin/iface_count"
+interface="bond0"
+prevOUT=$($iface_count $interface |cut -d' ' -f2 |cut -d':' -f 2;);
+prevIN=$($iface_count $interface |cut -d' ' -f1 |cut -d':' -f 2;);
+while [ 1 ]; do
+  nowOUT=$($iface_count $interface |cut -d' ' -f2 |cut -d':' -f 2;);
+  nowIN=$($iface_count $interface |cut -d' ' -f1 |cut -d':' -f 2;);
+  echo RX:$(( ((($nowIN - $prevIN) / 10)* 8)/1000 ))kbps TX:$(( ((($nowOUT - $prevOUT) / 10)* 8)/1000 ))kbps;
+  prevOUT=$nowOUT;
+  prevIN=$nowIN;
+  sleep 10;
+done
+
