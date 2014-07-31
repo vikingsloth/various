@@ -1,0 +1,18 @@
+CREATE TABLE captcha (
+  user_key VARCHAR(32) NOT NULL,
+  post_ip VARCHAR(15),
+  start TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  completed TIMESTAMP,
+  PRIMARY KEY (user_key)
+);
+
+CREATE TABLE connections (
+  nick VARCHAR(32) NOT NULL,
+  host VARCHAR(128) NOT NULL,
+  ident VARCHAR(32) NOT NULL,
+  connect_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX (host),
+  INDEX (nick),
+  INDEX (connect_time)
+);
+
